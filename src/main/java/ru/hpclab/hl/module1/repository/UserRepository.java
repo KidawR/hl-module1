@@ -8,7 +8,7 @@ import ru.hpclab.hl.module1.model.User;
 import java.util.*;
 
 import static java.lang.String.format;
-
+@Deprecated
 @Repository
 public class UserRepository {
 

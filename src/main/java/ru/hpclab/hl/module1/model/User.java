@@ -4,7 +4,7 @@ package ru.hpclab.hl.module1.model;
 import org.springframework.lang.NonNull;
 
 import java.util.UUID;
-
+@Deprecated
 public class User {
 
     @NonNull

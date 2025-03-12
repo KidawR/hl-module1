@@ -6,7 +6,7 @@ import ru.hpclab.hl.module1.model.User;
 import ru.hpclab.hl.module1.service.UserService;
 
 import java.util.List;
-
+@Deprecated
 @RestController
 public class UserController {
 

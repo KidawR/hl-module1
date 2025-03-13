@@ -11,8 +11,8 @@ import static java.lang.String.format;
 
 @Repository
 public class ArtistRepository {
-    public static final String ARTIST_NOT_FOUND_MSG = "HotelRoom with ID %s not found";
-    public static final String ROOM_EXISTS_MSG = "HotelRoom with ID %s is already exists";
+    public static final String ARTIST_NOT_FOUND_MSG = "Artist with ID %s not found";
+    public static final String ARTIST_EXISTS_MSG = "Artist with ID %s is already exists";
 
     private final Map<Long, Artist> artist = new HashMap<>();
 
@@ -42,7 +42,7 @@ public class ArtistRepository {
 
         final var userData = artist.get(room.getId());
         if (userData != null) {
-            throw new CustomException(format(ROOM_EXISTS_MSG, room.getId()));
+            throw new CustomException(format(ARTIST_EXISTS_MSG, room.getId()));
         }
 
         artist.put(room.getId(), room);

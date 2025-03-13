@@ -18,28 +18,33 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
+    @GetMapping("/{id}")
+    public String getViewersOnSector(@PathVariable String id) {
+        return ticketService.getViewersOnSector(id);
+    }
+
     @GetMapping("")
-    public List<Ticket> getBookings() {
+    public List<Ticket> getTickets() {
         return ticketService.getAllTickets();
     }
 
     @GetMapping("/{id}")
-    public Ticket getBookingById(@PathVariable String id) {
+    public Ticket getTicketById(@PathVariable String id) {
         return ticketService.getTicketById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBooking(@PathVariable String id) {
+    public void deleteTicket(@PathVariable String id) {
         ticketService.deleteTicket(id);
     }
 
     @PostMapping("")
-    public Ticket saveBooking(@RequestBody Ticket client) {
+    public Ticket saveTicket(@RequestBody Ticket client) {
         return ticketService.saveTicket(client);
     }
 
     @PutMapping(value = "/{id}")
-    public Ticket updateBooking(@PathVariable(required = false) String id, @RequestBody Ticket booking) {
+    public Ticket updateTicket(@PathVariable(required = false) String id, @RequestBody Ticket booking) {
         return ticketService.updateTicket(id, booking);
     }
 }

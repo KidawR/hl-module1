@@ -35,7 +35,7 @@ public class ServicesConfig {
         TicketService bookingService = new TicketService(ticketRepository);
         Random r = new Random();
         for (int i = 0; i < 5; i++) {
-            ticketRepository.save(new Ticket(r.nextLong(), r.nextLong(),r.nextLong(), "12.10.2024-15.10.2024"));
+            ticketRepository.save(new Ticket(r.nextLong(), r.nextLong(),r.nextLong(), "12.10.2024-15.10.2024", Ticket.Sector.A));
         }
         return bookingService;
     }

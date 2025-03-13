@@ -1,9 +1,13 @@
 package ru.hpclab.hl.module1.service;
 
+import ru.hpclab.hl.module1.model.Artist;
 import ru.hpclab.hl.module1.model.Ticket;
 import ru.hpclab.hl.module1.repository.TicketRepository;
+import ru.hpclab.hl.module1.service.ArtistService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TicketService {
     private final TicketRepository ticketRepository;
@@ -31,5 +35,30 @@ public class TicketService {
     public Ticket updateTicket(String id, Ticket ticket) {
         ticket.setId(Long.getLong(id));
         return ticketRepository.put(ticket);
+    }
+    public String getViewersOnSector(String artistId) {
+        List<Ticket> tickets = getAllTickets();
+        Map<Ticket.Sector, Integer> sectorViewerCount = new HashMap<>();
+
+        // Инициализируем счетчики для каждого сектора
+        for (Ticket.Sector sector : Ticket.Sector.values()) {
+            sectorViewerCount.put(sector, 0);
+        }
+
+        // Подсчитываем зрителей по секторам для данного артиста
+        for (Ticket ticket : tickets) {
+            if (ticket.getArtist() == Long.getLong(artistId)) {
+                Ticket.Sector sector = ticket.getSector();
+                sectorViewerCount.put(sector, sectorViewerCount.get(sector) + 1);
+            }
+        }
+        // Формируем строку с результатами
+        StringBuilder result = new StringBuilder();
+        result.append("Количество зрителей по секторам для артиста с ID ").append(artistId).append(":\n");
+        for (Map.Entry<Ticket.Sector, Integer> entry : sectorViewerCount.entrySet()) {
+            result.append("Сектор ").append(entry.getKey()).append(": ").append(entry.getValue()).append(" зрителей\n");
+        }
+
+        return result.toString();
     }
 }

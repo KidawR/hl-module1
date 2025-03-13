@@ -8,6 +8,12 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class Ticket {
+    public enum Sector {
+        A,
+        B,
+        C,
+        D
+    }
     @NonNull
     private long id;
     @NonNull
@@ -16,10 +22,12 @@ public class Ticket {
     public long viewer;
     @NonNull
     public String date;
-    public Ticket(long id, long artist, long viewer, String date) {
+    public Sector sector;
+    public Ticket(long id, long artist, long viewer, String date, Sector sector) {
         this.id = id;
         this.artist = artist;
         this.viewer = viewer;
+        this.sector = sector;
         this.date = date;
     }
 }

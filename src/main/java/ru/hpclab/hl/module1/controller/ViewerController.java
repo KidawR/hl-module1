@@ -5,36 +5,37 @@ import ru.hpclab.hl.module1.service.ViewerService;
 import ru.hpclab.hl.module1.model.Viewer;
 
 import java.util.List;
+@RestController
 public class ViewerController {
     private final ViewerService viewerService;
 
     @Autowired
-    public UserController(ViewerService viewerService) {
+    public ViewerController(ViewerService viewerService) {
         this.viewerService = viewerService;
     }
 
-    @GetMapping("/users")
-    public List<Viewer> getUsers() {
-        return viewerService.getAllUsers();
+    @GetMapping("/viewer")
+    public List<Viewer> getViewer() {
+        return viewerService.getAllViewers();
     }
 
-    @GetMapping("/users/{id}")
-    public Viewer getUserById(@PathVariable String id) {
-        return viewerService.getUserById(id);
+    @GetMapping("/viewer/{id}")
+    public Viewer getViewerById(@PathVariable String id) {
+        return viewerService.getViewerById(id);
     }
 
-    @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable String id) {
-        viewerService.deleteUser(id);
+    @DeleteMapping("/viewer/{id}")
+    public void deleteViewer(@PathVariable String id) {
+        viewerService.deleteViewer(id);
     }
 
-    @PostMapping(value = "/users/")
-    public Viewer saveUser(@RequestBody Viewer client) {
-        return ViewerService.saveUser(client);
+    @PostMapping(value = "/viewer/")
+    public Viewer saveViewer(@RequestBody Viewer client) {
+        return viewerService.saveViewer(client);
     }
 
-    @PutMapping(value = "/users/{id}")
-    public Viewer updateUser(@PathVariable(required = false) String id, @RequestBody Viewer viewer) {
-        return viewerService.updateUser(id, viewer);
+    @PutMapping(value = "/viewer/{id}")
+    public Viewer updateViewer(@PathVariable(required = false) String id, @RequestBody Viewer viewer) {
+        return viewerService.updateViewer(id, viewer);
     }
 }

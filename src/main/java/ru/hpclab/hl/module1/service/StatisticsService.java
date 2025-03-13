@@ -12,11 +12,11 @@ public class StatisticsService {
 
     final int delay;
 
-    private final UserService userService;
+    private final ViewerService viewerService;
 
-    public StatisticsService(int delay, UserService userService) {
+    public StatisticsService(int delay, ViewerService viewerService) {
         this.delay = delay;
-        this.userService = userService;
+        this.viewerService = viewerService;
     }
 
     @Async(value = "applicationTaskExecutor")
@@ -24,7 +24,7 @@ public class StatisticsService {
     public void scheduleFixedRateTaskAsync() throws InterruptedException {
         System.out.println(
                 Thread.currentThread().getName() + " - Fixed rate task async - "+ delay + " - " + infoString + " - "
-                        + userService.getAllUsers().size());
+                        + viewerService.getAllViewers().size());
         Thread.sleep(delay);
     }
 }

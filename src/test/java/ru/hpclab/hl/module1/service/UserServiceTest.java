@@ -9,8 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.hpclab.hl.module1.model.User;
-import ru.hpclab.hl.module1.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,50 +20,50 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {UserServiceTest.UserServiceTestConfiguration.class})
-public class UserServiceTest {
+@ContextConfiguration(classes = {ViewerServiceTest.ViewerServiceTestConfiguration.class})
+public class ViewerServiceTest {
 
     @Autowired
-    private UserService userService;
+    private ViewerService viewerService;
 
     @Autowired
-    private UserRepository userRepository;
+    private ViewerRepository viewerRepository;
 
     @Test
     public void testCreateAndGet(){
         //create
-        User user = new User(UUID.randomUUID(), "name");
+        Viewer viewer = new Viewer(UUID.randomUUID(), "name");
 
-        User savedUser = userService.saveUser(user);
+        Viewer savedViewer = viewerService.saveUser(viewer);
 
-        Assertions.assertEquals(user.getFio(), savedUser.getFio());
-        Mockito.verify(userRepository, Mockito.times(1)).save(user);
+        Assertions.assertEquals(viewer.getFio(), savedViewer.getFio());
+        Mockito.verify(viewerRepository, Mockito.times(1)).save(viewer);
 
         //getAll
-        List<User> userList = userService.getAllUsers();
+        List<Viewer> userList = viewerService.getAllViewers();
 
         Assertions.assertEquals("name1", userList.get(0).getFio());
         Assertions.assertEquals("name2", userList.get(1).getFio());
-        Mockito.verify(userRepository, Mockito.times(1)).findAll();
+        Mockito.verify(viewerRepository, Mockito.times(1)).findAll();
 
     }
 
     @Configuration
-    static class UserServiceTestConfiguration {
+    static class ViewerServiceTestConfiguration {
 
         @Bean
-        UserRepository userRepository() {
-            UserRepository userRepository = mock(UserRepository.class);
-            when(userRepository.save(any())).thenReturn(new User(UUID.randomUUID(), "name"));
-            when(userRepository.findAll())
-                    .thenReturn(Arrays.asList(new User(UUID.randomUUID(), "name1"),
-                            new User(UUID.randomUUID(), "name2")));
-            return userRepository;
+        ViewerRepository viewerRepository() {
+            ViewerRepository viewerRepository = mock(ViewerRepository.class);
+            when(viewerRepository.save(any())).thenReturn(new Viewer(UUID.randomUUID(), "name"));
+            when(viewerRepository.findAll())
+                    .thenReturn(Arrays.asList(new Viewer(UUID.randomUUID(), "name1"),
+                            new Viewer(UUID.randomUUID(), "name2")));
+            return viewerRepository;
         }
 
         @Bean
-        UserService UserService(UserRepository userRepository){
-            return new UserService(userRepository);
+        ViewerService UserService(ViewerRepository userRepository){
+            return new ViewerService(userRepository);
         }
     }
 

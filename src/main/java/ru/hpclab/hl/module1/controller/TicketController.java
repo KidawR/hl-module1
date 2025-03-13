@@ -18,9 +18,9 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
-    @GetMapping("/{id}")
-    public String getViewersOnSector(@PathVariable String id) {
-        return ticketService.getViewersOnSector(id);
+    @GetMapping("getCount")
+    public String getViewersOnSector() {
+        return ticketService.getViewersOnSector();
     }
 
     @GetMapping("")

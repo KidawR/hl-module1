@@ -4,7 +4,6 @@ import io.micrometer.common.lang.NonNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 @Getter
 @Setter
 public class Ticket {
@@ -17,16 +16,16 @@ public class Ticket {
     @NonNull
     private long id;
     @NonNull
-    public long artist;
+    public long artistId;
     @NonNull
-    public long viewer;
+    public long viewerId;
     @NonNull
     public String date;
     public Sector sector;
-    public Ticket(long id, long artist, long viewer, String date, Sector sector) {
+    public Ticket(long id, long artistId, long viewerId, String date, Sector sector) {
         this.id = id;
-        this.artist = artist;
-        this.viewer = viewer;
+        this.artistId = artistId;
+        this.viewerId = viewerId;
         this.sector = sector;
         this.date = date;
     }

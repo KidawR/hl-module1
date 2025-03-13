@@ -1,5 +1,7 @@
 package ru.hpclab.hl.module1.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.hpclab.hl.module1.model.Artist;
 import ru.hpclab.hl.module1.model.Ticket;
 import ru.hpclab.hl.module1.repository.ArtistRepository;
@@ -38,30 +40,29 @@ public class TicketService {
         return ticketRepository.put(ticket);
     }
     public String getViewersOnSector() {
-        // Формируем строку с результатами
-        StringBuilder result = new StringBuilder();
-        for (Artist artist : artistRepository.findAll()) {
-            List<Ticket> tickets = getAllTickets();
-            Map<Ticket.Sector, Integer> sectorViewerCount = new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<Long, Map<Ticket.Sector, Integer>> allArtistsViewerCount = new HashMap<>();
 
-            // Инициализируем счетчики для каждого сектора
-            for (Ticket.Sector sector : Ticket.Sector.values()) {
-                sectorViewerCount.put(sector, 0);
-            }
+        //Подсчитываем зрителей по секторам для каждого артиста
+        for (Ticket ticket : getAllTickets()) {
+            long artistId = ticket.getArtistId();
+            Ticket.Sector sector = ticket.getSector();
 
-            // Подсчитываем зрителей по секторам для данного артиста
-            for (Ticket ticket : tickets) {
-                if (ticket.getArtistId() == artist.getId()) {
-                    Ticket.Sector sector = ticket.getSector();
-                    sectorViewerCount.put(sector, sectorViewerCount.get(sector) + 1);
-                }
-            }
-            result.append("Количество зрителей по секторам для артиста с ID ").append(artist.getId()).append(":\n");
-            for (Map.Entry<Ticket.Sector, Integer> entry : sectorViewerCount.entrySet()) {
-                result.append("Сектор ").append(entry.getKey()).append(": ").append(entry.getValue()).append(" зрителей\n");
-            }
+            //Инициализируем счетчик для артиста, если его еще нет
+            allArtistsViewerCount.putIfAbsent(artistId, new HashMap<>());
+            Map<Ticket.Sector, Integer> sectorCount = allArtistsViewerCount.get(artistId);
+
+            //Инициализируем счетчик для сектора, если его еще нет
+            sectorCount.putIfAbsent(sector, 0);
+            sectorCount.put(sector, sectorCount.get(sector) + 1);
         }
 
-        return result.toString();
+        // JSON-объект
+        try {
+            return objectMapper.writeValueAsString(allArtistsViewerCount);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "{}"; // в случае ошибки
+        }
     }
 }

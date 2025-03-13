@@ -18,7 +18,7 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
-    @GetMapping("getCount")
+    @GetMapping("/getCount")
     public String getViewersOnSector() {
         return ticketService.getViewersOnSector();
     }

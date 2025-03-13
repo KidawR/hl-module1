@@ -30,8 +30,8 @@ public class ViewerController {
     }
 
     @PostMapping(value = "/viewer/")
-    public Viewer saveViewer(@RequestBody Viewer client) {
-        return viewerService.saveViewer(client);
+    public Viewer saveViewer(@RequestBody Viewer viewer) {
+        return viewerService.saveViewer(viewer);
     }
 
     @PutMapping(value = "/viewer/{id}")

@@ -13,8 +13,8 @@ public class ArtistController {
     private final ArtistService artistService;
 
     @Autowired
-    public ArtistController(ArtistService roomService) {
-        this.artistService = roomService;
+    public ArtistController(ArtistService artistService) {
+        this.artistService = artistService;
     }
 
     @GetMapping("")
@@ -33,12 +33,12 @@ public class ArtistController {
     }
 
     @PostMapping("")
-    public Artist saveArtist(@RequestBody Artist client) {
-        return artistService.saveArtist(client);
+    public Artist saveArtist(@RequestBody Artist artist) {
+        return artistService.saveArtist(artist);
     }
 
     @PutMapping(value = "/{id}")
-    public Artist updateArtist(@PathVariable(required = false) String id, @RequestBody Artist room) {
-        return artistService.updateArtist(id, room);
+    public Artist updateArtist(@PathVariable(required = false) String id, @RequestBody Artist artist) {
+        return artistService.updateArtist(id, artist);
     }
 }

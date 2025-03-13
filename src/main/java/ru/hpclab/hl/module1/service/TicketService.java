@@ -39,7 +39,7 @@ public class TicketService {
         ticket.setId(Long.getLong(id));
         return ticketRepository.put(ticket);
     }
-    public String getViewersOnSector() {
+    public Map<Long, Map<Ticket.Sector, Integer>> getViewersOnSector() {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<Long, Map<Ticket.Sector, Integer>> allArtistsViewerCount = new HashMap<>();
 
@@ -56,13 +56,7 @@ public class TicketService {
             sectorCount.putIfAbsent(sector, 0);
             sectorCount.put(sector, sectorCount.get(sector) + 1);
         }
+        return allArtistsViewerCount;
 
-        // JSON-объект
-        try {
-            return objectMapper.writeValueAsString(allArtistsViewerCount);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return "{}"; // в случае ошибки
-        }
     }
 }

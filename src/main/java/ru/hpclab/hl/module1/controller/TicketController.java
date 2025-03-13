@@ -6,6 +6,7 @@ import ru.hpclab.hl.module1.model.Ticket;
 import ru.hpclab.hl.module1.service.TicketService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/ticket")
@@ -19,7 +20,7 @@ public class TicketController {
     }
 
     @GetMapping("/getCount")
-    public String getViewersOnSector() {
+    public Map<Long, Map<Ticket.Sector, Integer>> getViewersOnSector() {
         return ticketService.getViewersOnSector();
     }
 

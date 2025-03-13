@@ -20,4 +20,5 @@ public class Viewer {
         this.name = name;
         this.email = email;
     }
+
 }

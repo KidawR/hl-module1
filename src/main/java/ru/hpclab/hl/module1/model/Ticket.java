@@ -29,4 +29,14 @@ public class Ticket {
         this.sector = sector;
         this.date = date;
     }
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", artistId=" + artistId +
+                ", viewerId=" + viewerId +
+                ", date='" + date + '\'' +
+                ", sector=" + sector +
+                '}';
+    }
 }

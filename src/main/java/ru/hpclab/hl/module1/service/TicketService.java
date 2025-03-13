@@ -40,7 +40,6 @@ public class TicketService {
         return ticketRepository.put(ticket);
     }
     public Map<Long, Map<Ticket.Sector, Integer>> getViewersOnSector() {
-        ObjectMapper objectMapper = new ObjectMapper();
         Map<Long, Map<Ticket.Sector, Integer>> allArtistsViewerCount = new HashMap<>();
 
         //Подсчитываем зрителей по секторам для каждого артиста

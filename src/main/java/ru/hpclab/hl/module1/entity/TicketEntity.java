@@ -19,25 +19,23 @@ public class TicketEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long artistId;
-    private Long viewerId;
     private String date;
-
     @Enumerated(EnumType.STRING)
     private Sector sector;
 
     @ManyToOne
     @JoinColumn(name = "viewer_id", nullable = false)
     private ViewerEntity viewerEntity;
-
+    @ManyToOne
+    @JoinColumn(name = "artist_id", nullable = false)
+    private ArtistEntity artistEntity;
     public TicketEntity() {
     }
 
-    public TicketEntity(Long id, Long artistId, Long viewerId, String date, Sector sector) {
+    public TicketEntity(Long id, ArtistEntity artistEntity, ViewerEntity viewerEntity, String date, Sector sector) {
         this.id = id;
-        this.artistId = artistId;
-        this.viewerId = viewerId;
+        this.artistEntity = artistEntity;
+        this.viewerEntity = viewerEntity;
         this.date = date;
         this.sector = sector;
     }
@@ -46,8 +44,8 @@ public class TicketEntity {
     public String toString() {
         return "TicketEntity{" +
                 "id=" + id +
-                ", artistId=" + artistId +
-                ", viewerId=" + viewerId +
+                ", artistId=" + artistEntity.getId()+
+                ", viewerId=" + viewerEntity.getId() +
                 ", date='" + date + '\'' +
                 ", sector=" + sector +
                 '}';

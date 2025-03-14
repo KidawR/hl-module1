@@ -1,61 +1,61 @@
 package ru.hpclab.hl.module1.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import ru.hpclab.hl.module1.model.Artist;
-import ru.hpclab.hl.module1.model.Ticket;
-import ru.hpclab.hl.module1.repository.ArtistRepository;
+
+import ru.hpclab.hl.module1.controller.exeption.CustomException;
+import ru.hpclab.hl.module1.entity.TicketEntity;
 import ru.hpclab.hl.module1.repository.TicketRepository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.String.format;
+
 public class TicketService {
     private final TicketRepository ticketRepository;
-    private ArtistRepository artistRepository = new ArtistRepository();
+    public static final String USER_NOT_FOUND_MSG = "User with ID %s not found";
 
     public TicketService(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
     }
 
-    public List<Ticket> getAllTickets() {
+    public List<TicketEntity> getAllTickets() {
         return ticketRepository.findAll();
     }
 
-    public Ticket getTicketById(String id) {
-        return ticketRepository.findById(Long.getLong(id));
+    public TicketEntity getTicketById(long id) {
+        return ticketRepository.findById(id).orElseThrow(() -> new CustomException(format(USER_NOT_FOUND_MSG, id)));
     }
 
-    public Ticket saveTicket(Ticket user) {
-        return ticketRepository.save(user);
+
+    public TicketEntity saveTicket(TicketEntity tickteEntity) {
+        tickteEntity.setId(null);
+        return ticketRepository.save(tickteEntity);
     }
 
-    public void deleteTicket(String id) {
-        ticketRepository.delete(Long.getLong(id));
+    public void deleteTicket(long id) {
+        ticketRepository.deleteById(id);
     }
 
-    public Ticket updateTicket(String id, Ticket ticket) {
-        ticket.setId(Long.getLong(id));
-        return ticketRepository.put(ticket);
+    public TicketEntity updateTicket(long id, TicketEntity tickteEntity) {
+        tickteEntity.setId(id);
+        //when id is not empty save works with update logic
+        return ticketRepository.save(tickteEntity);
     }
-    public Map<Long, Map<Ticket.Sector, Integer>> getViewersOnSector() {
-        Map<Long, Map<Ticket.Sector, Integer>> allArtistsViewerCount = new HashMap<>();
 
-        //Подсчитываем зрителей по секторам для каждого артиста
-        for (Ticket ticket : getAllTickets()) {
+    public Map<Long, Map<TicketEntity.Sector, Integer>> getViewersOnSector() {
+        Map<Long, Map<TicketEntity.Sector, Integer>> allArtistsViewerCount = new HashMap<>();
+
+        for (TicketEntity ticket : getAllTickets()) {
             long artistId = ticket.getArtistId();
-            Ticket.Sector sector = ticket.getSector();
+            TicketEntity.Sector sector = ticket.getSector();
 
-            //Инициализируем счетчик для артиста, если его еще нет
-            allArtistsViewerCount.putIfAbsent(artistId, new HashMap<>());
-            Map<Ticket.Sector, Integer> sectorCount = allArtistsViewerCount.get(artistId);
-
-            //Инициализируем счетчик для сектора, если его еще нет
-            sectorCount.putIfAbsent(sector, 0);
-            sectorCount.put(sector, sectorCount.get(sector) + 1);
+            allArtistsViewerCount
+                    .computeIfAbsent(artistId, k -> new HashMap<>())
+                    .merge(sector, 1, Integer::sum);
         }
         return allArtistsViewerCount;
 
     }
 }
+

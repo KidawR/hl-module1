@@ -1,6 +1,10 @@
 package ru.hpclab.hl.module1.mapper;
 
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import ru.hpclab.hl.module1.entity.ArtistEntity;
 import ru.hpclab.hl.module1.entity.TicketEntity;
+import ru.hpclab.hl.module1.entity.ViewerEntity;
 import ru.hpclab.hl.module1.model.Ticket;
 
 public class TicketMapper {
@@ -13,6 +17,7 @@ public class TicketMapper {
         }
         return new TicketEntity(
                 null,  // ID автоматически генерируется
+
                 ticket.getArtistId(),
                 ticket.getViewerId(),
                 ticket.getDate(),
@@ -26,7 +31,7 @@ public class TicketMapper {
         }
         return new Ticket(
                 ticketEntity.getId(),
-                ticketEntity.getArtistId(),
+                ticketEntity.getArtistEntity().getId(),
                 ticketEntity.getViewerEntity().getId(), // Получаем viewerId из объекта
                 ticketEntity.getDate(),
                 Ticket.Sector.valueOf(ticketEntity.getSector().name())

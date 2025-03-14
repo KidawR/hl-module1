@@ -15,12 +15,8 @@ public class ViewerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String email;
-
-    @OneToMany(mappedBy = "viewerEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<TicketEntity> tickets = new ArrayList<>();
 
     public ViewerEntity() {
     }

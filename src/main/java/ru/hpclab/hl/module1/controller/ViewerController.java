@@ -1,11 +1,15 @@
 package ru.hpclab.hl.module1.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.hpclab.hl.module1.service.ViewerService;
 import ru.hpclab.hl.module1.model.Viewer;
-
+import ru.hpclab.hl.module1.service.ViewerService;
+import ru.hpclab.hl.module1.mapper.ViewerMapper;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
+@RequestMapping("/viewers")
 public class ViewerController {
     private final ViewerService viewerService;
 
@@ -14,28 +18,29 @@ public class ViewerController {
         this.viewerService = viewerService;
     }
 
-    @GetMapping("/viewer")
+    @GetMapping("/viewers")
     public List<Viewer> getViewer() {
-        return viewerService.getAllViewers();
+        return viewerService.getAllViewers().stream()
+                .map(ViewerMapper::toModel).collect(Collectors.toList());
     }
 
-    @GetMapping("/viewer/{id}")
-    public Viewer getViewerById(@PathVariable String id) {
-        return viewerService.getViewerById(id);
+    @GetMapping("/viewers/{id}")
+    public Viewer getViewerById(@PathVariable long id) {
+        return ViewerMapper.toModel(viewerService.getViewerById(id));
     }
 
-    @DeleteMapping("/viewer/{id}")
-    public void deleteViewer(@PathVariable String id) {
+    @DeleteMapping("/viewers/{id}")
+    public void deletViewer(@PathVariable long id) {
         viewerService.deleteViewer(id);
     }
 
-    @PostMapping(value = "/viewer/")
-    public Viewer saveViewer(@RequestBody Viewer viewer) {
-        return viewerService.saveViewer(viewer);
+    @PostMapping(value = "/viewers")
+    public Viewer saveViewer(@RequestBody Viewer user) {
+        return ViewerMapper.toModel(viewerService.saveViewer(ViewerMapper.toEntity(user)));
     }
 
-    @PutMapping(value = "/viewer/{id}")
-    public Viewer updateViewer(@PathVariable(required = false) String id, @RequestBody Viewer viewer) {
-        return viewerService.updateViewer(id, viewer);
+    @PutMapping(value = "/viewers/{id}")
+    public Viewer updateViewer(@PathVariable(required = false) long id, @RequestBody Viewer user) {
+        return ViewerMapper.toModel(viewerService.updateViewer(id, ViewerMapper.toEntity(user)));
     }
 }

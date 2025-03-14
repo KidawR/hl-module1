@@ -15,14 +15,14 @@ public class Artist {
     @NonNull
     private long id;
     @NonNull
-    public String name_grope;
+    public String nameGroup;
     private Genre genre;
     @NonNull
     public int time_performances;
 
-    public Artist(long id, String name_grope, Genre genre, int time_performances) {
+    public Artist(long id, String nameGroup, Genre genre, int time_performances) {
         this.id = id;
-        this.name_grope = name_grope;
+        this.nameGroup = nameGroup;
         this.genre = genre;
         this.time_performances = time_performances;
     }
@@ -30,7 +30,7 @@ public class Artist {
     public String toString() {
         return "Artist{" +
                 "id=" + id +
-                ", name_grope='" + name_grope + '\'' +
+                ", name_grope='" + nameGroup + '\'' +
                 ", genre=" + genre +
                 ", time_performances=" + time_performances +
                 '}';

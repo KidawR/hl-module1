@@ -1,36 +1,43 @@
 package ru.hpclab.hl.module1.service;
 
-import ru.hpclab.hl.module1.model.Viewer;
+
+import ru.hpclab.hl.module1.controller.exeption.CustomException;
+import ru.hpclab.hl.module1.entity.ViewerEntity;
 import ru.hpclab.hl.module1.repository.ViewerRepository;
 
 import java.util.List;
 import java.util.UUID;
 
+import static java.lang.String.format;
+
 public class ViewerService {
     private final ViewerRepository viewerRepository;
+    public static final String USER_NOT_FOUND_MSG = "User with ID %s not found";
 
     public ViewerService(ViewerRepository viewerRepository) {
         this.viewerRepository = viewerRepository;
     }
 
-    public List<Viewer> getAllViewers() {
+    public List<ViewerEntity> getAllViewers() {
         return viewerRepository.findAll();
     }
 
-    public Viewer getViewerById(String id) {
-        return viewerRepository.findById(Long.getLong(id));
+    public ViewerEntity getViewerById(long id) {
+        return viewerRepository.findById(id).orElseThrow(() -> new CustomException(format(USER_NOT_FOUND_MSG, id)));
     }
 
-    public Viewer saveViewer(Viewer viewer) {
-        return viewerRepository.save(viewer);
+    public ViewerEntity saveViewer(ViewerEntity viewerEntity) {
+        viewerEntity.setId(null);
+        return viewerRepository.save(viewerEntity);
     }
 
-    public void deleteViewer(String id) {
-        viewerRepository.delete(Long.getLong(id));
+    public void deleteViewer(long id) {
+        viewerRepository.deleteById(id);
     }
 
-    public Viewer updateViewer(String id, Viewer viewer) {
-        viewer.setId(Long.getLong(id));
-        return viewerRepository.put(viewer);
+    public ViewerEntity updateViewer(long id, ViewerEntity viewerEntity) {
+        viewerEntity.setId(id);
+        //when id is not empty save works with update logic
+        return viewerRepository.save(viewerEntity);
     }
 }

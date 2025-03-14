@@ -13,7 +13,7 @@ public class ArtistMapper {
         }
         return new ArtistEntity(
                 null,  // ID автоматически генерируется в базе
-                artist.getName_grope(),
+                artist.getNameGroup(),
                 ArtistEntity.Genre.valueOf(artist.getGenre().name()),
                 artist.getTime_performances()
         );
@@ -25,9 +25,9 @@ public class ArtistMapper {
         }
         return new Artist(
                 artistEntity.getId(),
-                artistEntity.getName_grope(),
+                artistEntity.getNameGroup(),
                 Artist.Genre.valueOf(artistEntity.getGenre().name()),
-                artistEntity.getTime_performances()
+                artistEntity.getTimePerformances()
         );
     }
 }

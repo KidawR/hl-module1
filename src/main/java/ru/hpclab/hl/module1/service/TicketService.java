@@ -1,6 +1,7 @@
 package ru.hpclab.hl.module1.service;
 
 
+import org.springframework.stereotype.Service;
 import ru.hpclab.hl.module1.controller.exeption.CustomException;
 import ru.hpclab.hl.module1.entity.TicketEntity;
 import ru.hpclab.hl.module1.repository.TicketRepository;
@@ -8,9 +9,10 @@ import ru.hpclab.hl.module1.repository.TicketRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
-
+@Service
 public class TicketService {
     private final TicketRepository ticketRepository;
     public static final String USER_NOT_FOUND_MSG = "User with ID %s not found";
@@ -43,19 +45,13 @@ public class TicketService {
         return ticketRepository.save(tickteEntity);
     }
 
-    public Map<Long, Map<TicketEntity.Sector, Integer>> getViewersOnSector() {
-        Map<Long, Map<TicketEntity.Sector, Integer>> allArtistsViewerCount = new HashMap<>();
-
-        for (TicketEntity ticket : getAllTickets()) {
-            long artistId = ticket.getArtistId();
-            TicketEntity.Sector sector = ticket.getSector();
-
-            allArtistsViewerCount
-                    .computeIfAbsent(artistId, k -> new HashMap<>())
-                    .merge(sector, 1, Integer::sum);
-        }
-        return allArtistsViewerCount;
-
+    public List<Map<String, Object>> getViewersCountBySector() {
+        return ticketRepository.countViewersBySector().stream().map(row -> Map.of(
+                "artistId", row[0],
+                "artistName", row[1],
+                "sector", row[2],
+                "viewerCount", row[3]
+        )).collect(Collectors.toList());
     }
 }
 

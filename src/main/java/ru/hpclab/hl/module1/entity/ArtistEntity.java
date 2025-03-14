@@ -5,10 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "t_Artist")
+@Table(name = "t_artist")
 @Getter
 @Setter
 public class ArtistEntity {
+
+    public ArtistEntity() {
+
+    }
 
     public enum Genre {
         METAL,
@@ -27,7 +31,9 @@ public class ArtistEntity {
 
     private int timePerformances; // Исправлено с time_performances
 
-    public ArtistEntity() {}
+    public ArtistEntity(long artistId) {
+        this.id = artistId;
+    }
 
     public ArtistEntity(Long id, String nameGroup, Genre genre, int timePerformances) {
         this.id = id;

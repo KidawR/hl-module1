@@ -1,6 +1,5 @@
 package ru.hpclab.hl.module1.model;
 
-import io.micrometer.common.lang.NonNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,23 +7,21 @@ import lombok.Setter;
 @Setter
 public class Artist {
     public enum Genre {
-        Metal,
+        METAL,
         K_POP,
-        Rock
+        ROCK
     }
-    @NonNull
+
     private long id;
-    @NonNull
     public String nameGroup;
     private Genre genre;
-    @NonNull
-    public int time_performances;
+    public int timePerformances;
 
-    public Artist(long id, String nameGroup, Genre genre, int time_performances) {
+    public Artist(long id, String nameGroup, Genre genre, int timePerformances) {
         this.id = id;
         this.nameGroup = nameGroup;
         this.genre = genre;
-        this.time_performances = time_performances;
+        this.timePerformances = timePerformances;
     }
     @Override
     public String toString() {
@@ -32,7 +29,7 @@ public class Artist {
                 "id=" + id +
                 ", name_grope='" + nameGroup + '\'' +
                 ", genre=" + genre +
-                ", time_performances=" + time_performances +
+                ", time_performances=" + timePerformances +
                 '}';
     }
 }

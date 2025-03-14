@@ -1,6 +1,7 @@
 package ru.hpclab.hl.module1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hpclab.hl.module1.entity.ArtistEntity;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/artists")
+@ComponentScan(basePackages = "ru.hpclab.hl.module1")
 public class ArtistController {
     private final ArtistService artistService;
 
@@ -20,29 +22,30 @@ public class ArtistController {
         this.artistService = artistService;
     }
 
-    @GetMapping("/artists")
+    @GetMapping
     public List<Artist> getArtists() {
         return artistService.getAllArtists().stream()
                 .map(ArtistMapper::toModel).collect(Collectors.toList());
     }
 
-    @GetMapping("/artists/{id}")
+    @GetMapping("/{id}")
     public Artist getArtistById(@PathVariable long id) {
         return ArtistMapper.toModel(artistService.getArtistById(id));
     }
 
-    @DeleteMapping("/artists/{id}")
+    @DeleteMapping("/{id}")
     public void deleteArtist(@PathVariable long id) {
         artistService.deleteArtist(id);
     }
 
-    @PostMapping(value = "/artists")
+    @PostMapping
     public Artist saveUser(@RequestBody Artist user) {
         return ArtistMapper.toModel(artistService.saveArtist(ArtistMapper.toEntity(user)));
     }
 
-    @PutMapping(value = "/artists/{id}")
-    public Artist updateArtist(@PathVariable(required = false) long id, @RequestBody Artist user) {
+    @PutMapping("/{id}")
+    public Artist updateArtist(@PathVariable long id, @RequestBody Artist user) {
         return ArtistMapper.toModel(artistService.updateArtist(id, ArtistMapper.toEntity(user)));
     }
+
 }

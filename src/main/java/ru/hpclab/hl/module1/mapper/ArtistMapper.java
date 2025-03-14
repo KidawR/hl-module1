@@ -15,7 +15,7 @@ public class ArtistMapper {
                 null,  // ID автоматически генерируется в базе
                 artist.getNameGroup(),
                 ArtistEntity.Genre.valueOf(artist.getGenre().name()),
-                artist.getTime_performances()
+                artist.getTimePerformances()
         );
     }
 

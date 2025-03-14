@@ -4,11 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "t_Viewer")
+@Table(name = "t_viewer")
 @Getter
 @Setter
 public class ViewerEntity {
@@ -18,13 +15,17 @@ public class ViewerEntity {
     private String name;
     private String email;
 
-    public ViewerEntity() {
-    }
+    public ViewerEntity(long viewerId) {    this.id = viewerId; }
+
 
     public ViewerEntity(Long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
+    }
+
+    public ViewerEntity() {
+        
     }
 
     @Override

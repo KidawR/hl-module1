@@ -17,9 +17,8 @@ public class TicketMapper {
         }
         return new TicketEntity(
                 null,  // ID автоматически генерируется
-
-                ticket.getArtistId(),
-                ticket.getViewerId(),
+                new ArtistEntity(ticket.getArtistId()),
+                new ViewerEntity(ticket.getViewerId()),
                 ticket.getDate(),
                 TicketEntity.Sector.valueOf(ticket.getSector().name())
         );

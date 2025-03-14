@@ -1,6 +1,7 @@
 package ru.hpclab.hl.module1.service;
 
 
+import org.springframework.stereotype.Service;
 import ru.hpclab.hl.module1.controller.exeption.CustomException;
 import ru.hpclab.hl.module1.entity.ViewerEntity;
 import ru.hpclab.hl.module1.repository.ViewerRepository;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.lang.String.format;
-
+@Service
 public class ViewerService {
     private final ViewerRepository viewerRepository;
     public static final String USER_NOT_FOUND_MSG = "User with ID %s not found";

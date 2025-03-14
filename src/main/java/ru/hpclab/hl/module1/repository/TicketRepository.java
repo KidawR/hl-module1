@@ -11,4 +11,9 @@ public interface TicketRepository extends CrudRepository<TicketEntity, Long> {
 
     @Override
     List<TicketEntity> findAll();
+    @Query("SELECT t.artistEntity.id, t.artistEntity.nameGroup, t.sector, COUNT(t.viewerEntity.id) " +
+            "FROM TicketEntity t " +
+            "GROUP BY t.artistEntity.id, t.artistEntity.nameGroup, t.sector " +
+            "ORDER BY t.artistEntity.id, t.sector")
+    List<Object[]> countViewersBySector();
 }

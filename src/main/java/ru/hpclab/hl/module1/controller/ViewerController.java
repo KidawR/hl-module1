@@ -18,28 +18,28 @@ public class ViewerController {
         this.viewerService = viewerService;
     }
 
-    @GetMapping("/viewers")
+    @GetMapping("")
     public List<Viewer> getViewer() {
         return viewerService.getAllViewers().stream()
                 .map(ViewerMapper::toModel).collect(Collectors.toList());
     }
 
-    @GetMapping("/viewers/{id}")
+    @GetMapping("/{id}")
     public Viewer getViewerById(@PathVariable long id) {
         return ViewerMapper.toModel(viewerService.getViewerById(id));
     }
 
-    @DeleteMapping("/viewers/{id}")
+    @DeleteMapping("/{id}")
     public void deletViewer(@PathVariable long id) {
         viewerService.deleteViewer(id);
     }
 
-    @PostMapping(value = "/viewers")
+    @PostMapping(value = "")
     public Viewer saveViewer(@RequestBody Viewer user) {
         return ViewerMapper.toModel(viewerService.saveViewer(ViewerMapper.toEntity(user)));
     }
 
-    @PutMapping(value = "/viewers/{id}")
+    @PutMapping(value = "/{id}")
     public Viewer updateViewer(@PathVariable(required = false) long id, @RequestBody Viewer user) {
         return ViewerMapper.toModel(viewerService.updateViewer(id, ViewerMapper.toEntity(user)));
     }

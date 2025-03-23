@@ -1,3 +1,8 @@
+version: '3.8'
+# docker ps
+# docker logs spring-boot-app 
+# docker build -t kedawr/module1 -f . пересобрать rvx
+#  docker build -t kidawr/module1  .  && docker compose down && docker compose up -d && docker exec -it spring-boot-app /bin/bash
 services:
 
   init-db:
@@ -10,15 +15,12 @@ services:
     networks:
       - app-network
 
-
   database:
     image: postgres:13
     container_name: pg-docker
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: module1
+    env_file:
+      - .env
     ports:
       - "5432:5432"
     volumes:
@@ -29,25 +31,21 @@ services:
       init-db:
         condition: service_completed_successfully
 
-
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: kidawr/module1
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile
     container_name: spring-boot-app
     restart: always
     depends_on:
       - database
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/module1
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    env_file:
+      - .env
     ports:
       - "8080:8080"
     networks:
       - app-network
-
 
 networks:
   app-network:

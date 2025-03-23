@@ -11,6 +11,7 @@ import java.util.*;
 
 public interface ArtistRepository extends CrudRepository<ArtistEntity, Long> {
 
+    @Override
     List<ArtistEntity> findAll();
 
 }

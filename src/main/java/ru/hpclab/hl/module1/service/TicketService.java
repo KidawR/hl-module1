@@ -6,6 +6,7 @@ import ru.hpclab.hl.module1.controller.exeption.CustomException;
 import ru.hpclab.hl.module1.entity.TicketEntity;
 import ru.hpclab.hl.module1.repository.TicketRepository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,12 +47,26 @@ public class TicketService {
     }
 
     public List<Map<String, Object>> getViewersCountBySector() {
-        return ticketRepository.countViewersBySector().stream().map(row -> Map.of(
-                "artistId", row[0],
-                "artistName", row[1],
-                "sector", row[2],
-                "viewerCount", row[3]
-        )).collect(Collectors.toList());
+        return ticketRepository.countViewersBySector().stream()
+                .collect(Collectors.groupingBy(
+                        row -> Map.of(
+                                "artistId", row[0],
+                                "artistName", row[1]
+                        ),
+                        Collectors.mapping(row -> Map.of(
+                                "sector", row[2],
+                                "viewerCount", row[3]
+                        ), Collectors.toList())
+                ))
+                .entrySet()
+                .stream()
+                .map(entry -> {
+                    Map<String, Object> artistData = new HashMap<>(entry.getKey());
+                    artistData.put("sectors", entry.getValue());
+                    return artistData;
+                })
+                .collect(Collectors.toList());
     }
+
 }
 

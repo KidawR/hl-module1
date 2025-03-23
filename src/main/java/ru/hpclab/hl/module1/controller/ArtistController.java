@@ -1,10 +1,7 @@
 package ru.hpclab.hl.module1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.hpclab.hl.module1.entity.ArtistEntity;
 import ru.hpclab.hl.module1.model.Artist;
 import ru.hpclab.hl.module1.service.ArtistService;
 import ru.hpclab.hl.module1.mapper.ArtistMapper;
@@ -13,7 +10,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/artists")
-@ComponentScan(basePackages = "ru.hpclab.hl.module1")
+
 public class ArtistController {
     private final ArtistService artistService;
 

@@ -25,7 +25,8 @@ def plot_response_vs_load_from_csv(csv_file):
                               df_vus.sort_values("timestamp"),
                               on="timestamp", direction="nearest")
 
-    plt.figure(figsize=(12, 6))
+    # Увеличиваем размер графика
+    plt.figure(figsize=(14, 8))
 
     # Изменяем стиль точек и добавляем прозрачность
     plt.scatter(df_merged["vus"], df_merged["http_req_duration"],
@@ -36,7 +37,7 @@ def plot_response_vs_load_from_csv(csv_file):
 
     # Настройка меток
     plt.xticks(np.arange(0, df_merged["vus"].max() + 1, step=2))
-    plt.yticks(np.arange(0, df_merged["http_req_duration"].max() + 1, step=5))
+    plt.yticks(np.arange(0, df_merged["http_req_duration"].max() + 1, step=10))  # Увеличиваем шаг до 10
 
     # Добавляем подписи и заголовок
     plt.xlabel("Нагрузка (VUS)", fontsize=14)
@@ -48,4 +49,5 @@ def plot_response_vs_load_from_csv(csv_file):
     plt.savefig("график.png", dpi=300, bbox_inches='tight')
     plt.close()  # Закрываем график после сохранения
 
-plot_response_vs_load_from_csv("file.csv")
+# Вызов функции с указанием файла
+plot_response_vs_load_from_csv("file2.csv")

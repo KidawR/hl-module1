@@ -23,7 +23,10 @@ public class ViewerController {
         return viewerService.getAllViewers().stream()
                 .map(ViewerMapper::toModel).collect(Collectors.toList());
     }
-
+    @DeleteMapping("/clear")
+    public void clearViewers() {
+        viewerService.clearAllViewers(); // Метод для очистки всех зрителей
+    }
     @GetMapping("/{id}")
     public Viewer getViewerById(@PathVariable long id) {
         return ViewerMapper.toModel(viewerService.getViewerById(id));

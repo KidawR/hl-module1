@@ -24,7 +24,10 @@ public class ArtistController {
         return artistService.getAllArtists().stream()
                 .map(ArtistMapper::toModel).collect(Collectors.toList());
     }
-
+    @DeleteMapping("/clear")
+    public void clearArtists() {
+        artistService.clearAllArtists(); // Метод для очистки всех артистов
+    }
     @GetMapping("/{id}")
     public Artist getArtistById(@PathVariable long id) {
         return ArtistMapper.toModel(artistService.getArtistById(id));

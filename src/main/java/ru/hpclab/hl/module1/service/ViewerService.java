@@ -41,4 +41,8 @@ public class ViewerService {
         //when id is not empty save works with update logic
         return viewerRepository.save(viewerEntity);
     }
+
+    public void clearAllViewers() {
+        viewerRepository.deleteAll();
+    }
 }

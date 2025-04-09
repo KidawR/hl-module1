@@ -26,7 +26,10 @@ public class TicketController {
         return ticketService.getAllTickets().stream()
                 .map(TicketMapper::toModel).collect(Collectors.toList());
     }
-
+    @DeleteMapping("/clear")
+    public void clearTickets() {
+        ticketService.clearAllTickets(); // Метод для очистки всех билетов
+    }
     @GetMapping("/{id}")
     public Ticket getTicketById(@PathVariable long id) {
         return TicketMapper.toModel(ticketService.getTicketById(id));

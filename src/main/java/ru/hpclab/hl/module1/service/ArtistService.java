@@ -22,6 +22,10 @@ public class ArtistService {
         this.artistRepository = viewerRepository;
     }
 
+    public void clearAllArtists() {
+        artistRepository.deleteAll(); // Удаляет всех артистов
+    }
+
     public List<ArtistEntity> getAllArtists() {
         return artistRepository.findAll();
     }

@@ -42,11 +42,25 @@ services:
       - database
     env_file:
       - .env
+    environment:
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update  # Автоматическое обновление схемы базы данных
+      SPRING_JPA_SHOW_SQL: 'false'  # отключаем логи Hibernate
+      SERVER_TOMCAT_MAX_THREADS: '200'
     ports:
       - "8080:8080"
     networks:
       - app-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'  # лимиты для CPU
+          memory: 512M  # лимиты для памяти
+        reservations:
+          cpus: '0.5'  # Резервирование CPU
+          memory: 256M  # Резервирование памяти
 
+
+          
 networks:
   app-network:
     driver: bridge

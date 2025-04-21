@@ -72,12 +72,12 @@ def populate_data(endpoint, count, clear):
 
                 # Проверяем наличие артистов и зрителей
                 if not artists:
-                    populate_data("artists", count)  # Создаем хотя бы одного артиста
+                    populate_data("artists", count, clear)  # Создаем хотя бы одного артиста
                     artists_response = requests.get('http://localhost:8080/artists')  # Обновляем список артистов
                     artists = artists_response.json()  # Обновляем переменную artists
 
                 if not viewers:
-                    populate_data("viewers", count)  # Создаем хотя бы одного зрителя
+                    populate_data("viewers", count, clear)  # Создаем хотя бы одного зрителя
                     viewers_response = requests.get('http://localhost:8080/viewers')  # Обновляем список зрителей
                     viewers = viewers_response.json()  # Обновляем переменную viewers
 
@@ -119,3 +119,5 @@ if __name__ == "__main__":
 #artists
 #viewers
 #tickets
+
+#python initdb.py --count 2 --endpoint tickets --clear

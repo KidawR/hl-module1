@@ -12,8 +12,8 @@ services:
     #  dockerfile: Dockerfile
     container_name: spring-boot-app
     restart: always
-    depends_on:
-      - database
+    #depends_on:
+    #  - database
     env_file:
       - .env
     environment:

@@ -1,7 +1,7 @@
 import random
 from datetime import datetime, timedelta
 
-def generate_sql(filename, num_artists=6, num_viewers=6, num_tickets=6):
+def generate_sql(filename, num_artists=250, num_viewers=250, num_tickets=1000):
     genres = ["METAL", "K_POP", "ROCK"]
     artist_names = ["Metallica", "BTS", "Nirvana", "Coldplay", "Linkin Park", "Adele"]
     viewer_names = [

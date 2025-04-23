@@ -33,9 +33,9 @@ services:
           memory: 256M  # Резервирование памяти
 
   additional-service:
-    build:
-      context: ../additional-service
-      dockerfile: Dockerfile
+    #build:
+    #  context: ../additional-service
+    #  dockerfile: Dockerfile
     image: kidawr/additional-service
     container_name: additional-service
     restart: always

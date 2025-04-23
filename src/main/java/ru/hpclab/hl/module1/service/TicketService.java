@@ -47,17 +47,6 @@ public class TicketService {
         return ticketRepository.save(tickteEntity);
     }
 
-    public List<SectorStats> getSectorStats() {
-        List<Object[]> rawStats = ticketRepository.countViewersBySector();
-        return rawStats.stream()
-                .map(row -> new SectorStats(
-                        (Long) row[0],
-                        (String) row[1],
-                        row[2].toString(),
-                        (Long) row[3]
-                ))
-                .collect(Collectors.toList());
-    }
 
 
     public void clearAllTickets() {

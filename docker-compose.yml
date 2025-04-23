@@ -32,6 +32,19 @@ services:
           cpus: '0.5'  # Резервирование CPU
           memory: 256M  # Резервирование памяти
 
+  additional-service:
+    build:
+      context: ../additional-service
+      dockerfile: Dockerfile
+    image: kidawr/additional-service
+    container_name: additional-service
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - app-network
+    depends_on:
+      - app
 
           
 networks:

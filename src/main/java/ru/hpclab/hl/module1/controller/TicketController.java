@@ -3,6 +3,7 @@ package ru.hpclab.hl.module1.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.hpclab.hl.module1.entity.TicketEntity;
+import ru.hpclab.hl.module1.mapper.SectorStats;
 import ru.hpclab.hl.module1.mapper.TicketMapper;
 import ru.hpclab.hl.module1.model.Ticket;
 import ru.hpclab.hl.module1.service.TicketService;
@@ -50,7 +51,9 @@ public class TicketController {
         return TicketMapper.toModel(ticketService.updateTicket(id, TicketMapper.toEntity(user)));
     }
     @GetMapping("/stats")
-    public List<Map<String, Object>> getTicketStats() {
-        return ticketService.getViewersCountBySector();
+    public List<SectorStats> getStats() {
+        return ticketService.getSectorStats();
     }
+
+
 }

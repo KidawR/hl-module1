@@ -4,6 +4,7 @@ package ru.hpclab.hl.module1.service;
 import org.springframework.stereotype.Service;
 import ru.hpclab.hl.module1.controller.exeption.CustomException;
 import ru.hpclab.hl.module1.entity.TicketEntity;
+import ru.hpclab.hl.module1.mapper.SectorStats;
 import ru.hpclab.hl.module1.repository.TicketRepository;
 
 import java.util.ArrayList;
@@ -46,27 +47,18 @@ public class TicketService {
         return ticketRepository.save(tickteEntity);
     }
 
-    public List<Map<String, Object>> getViewersCountBySector() {
-        return ticketRepository.countViewersBySector().stream()
-                .collect(Collectors.groupingBy(
-                        row -> Map.of(
-                                "artistId", row[0],
-                                "artistName", row[1]
-                        ),
-                        Collectors.mapping(row -> Map.of(
-                                "sector", row[2],
-                                "viewerCount", row[3]
-                        ), Collectors.toList())
+    public List<SectorStats> getSectorStats() {
+        List<Object[]> rawStats = ticketRepository.countViewersBySector();
+        return rawStats.stream()
+                .map(row -> new SectorStats(
+                        (Long) row[0],
+                        (String) row[1],
+                        row[2].toString(),
+                        (Long) row[3]
                 ))
-                .entrySet()
-                .stream()
-                .map(entry -> {
-                    Map<String, Object> artistData = new HashMap<>(entry.getKey());
-                    artistData.put("sectors", entry.getValue());
-                    return artistData;
-                })
                 .collect(Collectors.toList());
     }
+
 
     public void clearAllTickets() {
         ticketRepository.deleteAll();

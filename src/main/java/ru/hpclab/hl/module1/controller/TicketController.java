@@ -50,10 +50,4 @@ public class TicketController {
     public Ticket updateTicket(@PathVariable(required = false) long id, @RequestBody Ticket user) {
         return TicketMapper.toModel(ticketService.updateTicket(id, TicketMapper.toEntity(user)));
     }
-    @GetMapping("/stats")
-    public List<SectorStats> getStats() {
-        return ticketService.getSectorStats();
-    }
-
-
 }

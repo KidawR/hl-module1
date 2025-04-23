@@ -1,5 +1,5 @@
 package ru.hpclab.hl.module1.model;
-
+//ну типо dto
 import lombok.Getter;
 import lombok.Setter;
 

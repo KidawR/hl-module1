@@ -44,13 +44,18 @@ def populate_data(endpoint, count, clear):
     """Заполняет указанный эндпоинт тестовыми данными."""
     if count <= 0:
         return  # Если count меньше или равен 0, ничего не делаем
+    # Получаем ID артистов и зрителей для создания билета
+    artists_response = requests.get('http://localhost:8080/artists')
+    viewers_response = requests.get('http://localhost:8080/viewers')
+    artists = artists_response.json()
+    viewers = viewers_response.json()
     # Проверяем наличие артистов и зрителей
-    if not artists:
+    if not artists and endpoint == "tickets":
         populate_data("artists", count, clear)  # Создаем хотя бы одного артиста
         artists_response = requests.get('http://localhost:8080/artists')  # Обновляем список артистов
         artists = artists_response.json()  # Обновляем переменную artists
 
-    if not viewers:
+    if not viewers and endpoint == "tickets":
         populate_data("viewers", count, clear)  # Создаем хотя бы одного зрителя
         viewers_response = requests.get('http://localhost:8080/viewers')  # Обновляем список зрителей
         viewers = viewers_response.json()  # Обновляем переменную viewers
@@ -73,12 +78,8 @@ def populate_data(endpoint, count, clear):
                 print(f"Ошибка при создании зрителя: {response.status_code}, {response.text}")
 
         elif endpoint == "tickets":
-            # Получаем ID артистов и зрителей для создания билета
-            artists_response = requests.get('http://localhost:8080/artists')
-            viewers_response = requests.get('http://localhost:8080/viewers')
-            if artists_response.status_code == 200 and viewers_response.status_code == 200:
-                artists = artists_response.json()
-                viewers = viewers_response.json()
+             if artists_response.status_code == 200 and viewers_response.status_code == 200:
+
 
                 if artists and viewers:
                     # Выбираем случайного артиста и зрителя

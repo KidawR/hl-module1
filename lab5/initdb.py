@@ -44,6 +44,16 @@ def populate_data(endpoint, count, clear):
     """Заполняет указанный эндпоинт тестовыми данными."""
     if count <= 0:
         return  # Если count меньше или равен 0, ничего не делаем
+    # Проверяем наличие артистов и зрителей
+    if not artists:
+        populate_data("artists", count, clear)  # Создаем хотя бы одного артиста
+        artists_response = requests.get('http://localhost:8080/artists')  # Обновляем список артистов
+        artists = artists_response.json()  # Обновляем переменную artists
+
+    if not viewers:
+        populate_data("viewers", count, clear)  # Создаем хотя бы одного зрителя
+        viewers_response = requests.get('http://localhost:8080/viewers')  # Обновляем список зрителей
+        viewers = viewers_response.json()  # Обновляем переменную viewers
 
     for _ in range(count):
         if endpoint == "artists":
@@ -69,17 +79,6 @@ def populate_data(endpoint, count, clear):
             if artists_response.status_code == 200 and viewers_response.status_code == 200:
                 artists = artists_response.json()
                 viewers = viewers_response.json()
-
-                # Проверяем наличие артистов и зрителей
-                if not artists:
-                    populate_data("artists", count, clear)  # Создаем хотя бы одного артиста
-                    artists_response = requests.get('http://localhost:8080/artists')  # Обновляем список артистов
-                    artists = artists_response.json()  # Обновляем переменную artists
-
-                if not viewers:
-                    populate_data("viewers", count, clear)  # Создаем хотя бы одного зрителя
-                    viewers_response = requests.get('http://localhost:8080/viewers')  # Обновляем список зрителей
-                    viewers = viewers_response.json()  # Обновляем переменную viewers
 
                 if artists and viewers:
                     # Выбираем случайного артиста и зрителя

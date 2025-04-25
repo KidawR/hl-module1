@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.hpclab.hl.module1.controller.exeption.CustomException;
 import ru.hpclab.hl.module1.entity.ViewerEntity;
 import ru.hpclab.hl.module1.repository.ViewerRepository;
+import ru.hpclab.hl.module1.service.statistics.ObservabilityService;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,35 +15,52 @@ import static java.lang.String.format;
 public class ViewerService {
     private final ViewerRepository viewerRepository;
     public static final String USER_NOT_FOUND_MSG = "User with ID %s not found";
-
-    public ViewerService(ViewerRepository viewerRepository) {
+    private final ObservabilityService observabilityService;
+    public ViewerService(ViewerRepository viewerRepository, ObservabilityService observabilityService) {
         this.viewerRepository = viewerRepository;
+        this.observabilityService = observabilityService;
     }
 
     public List<ViewerEntity> getAllViewers() {
-        return viewerRepository.findAll();
+        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        List<ViewerEntity> temp = viewerRepository.findAll();
+        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        return temp;
     }
 
     public ViewerEntity getViewerById(long id) {
-        return viewerRepository.findById(id).orElseThrow(() -> new CustomException(format(USER_NOT_FOUND_MSG, id)));
+        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        ViewerEntity temp = viewerRepository.findById(id).orElseThrow(() -> new CustomException(format(USER_NOT_FOUND_MSG, id)));
+        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        return temp;
     }
 
     public ViewerEntity saveViewer(ViewerEntity viewerEntity) {
+        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
         viewerEntity.setId(null);
-        return viewerRepository.save(viewerEntity);
+        ViewerEntity temp = viewerRepository.save(viewerEntity);
+        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        return temp;
     }
 
     public void deleteViewer(long id) {
+        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
         viewerRepository.deleteById(id);
+        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
     }
 
     public ViewerEntity updateViewer(long id, ViewerEntity viewerEntity) {
+        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
         viewerEntity.setId(id);
         //when id is not empty save works with update logic
-        return viewerRepository.save(viewerEntity);
+        ViewerEntity temp = viewerRepository.save(viewerEntity);
+        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        return temp;
     }
 
     public void clearAllViewers() {
+        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
         viewerRepository.deleteAll();
+        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
     }
 }

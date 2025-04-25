@@ -56,21 +56,20 @@ public class ObservabilityService {
     @Scheduled(fixedDelayString = "${service.statistic.observability.delay}")
     public void getStatistics() {
         List<Timing> snapshot = new ArrayList<>(timings);
-
         Instant now = Instant.now();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 .withZone(ZoneId.systemDefault());
 
-        int maxInterval = intervals.stream().max(Integer::compare).get();
-
+        int maxInterval = intervals.stream().max(Integer::compare).orElse(0);
         removeOldTimings(now, maxInterval);
-
+// копить в хэш мапе потом все выводить
         Set<String> uniqueNames = getUniqueNamesByTiming(snapshot);
-
-        System.out.println("\nPrint observability statistics in delay: " + delay);
+        Map<String, Map<Integer, Double>> statisticsMap = new HashMap<>();
 
         for (String name : uniqueNames) {
+            Map<Integer, Double> intervalStats = new HashMap<>();
+
             for (int interval : intervals) {
                 List<Timing> filteredTimings = snapshot.stream()
                         .filter(t -> t.getStop() != PENDING_STOP
@@ -82,11 +81,26 @@ public class ObservabilityService {
                 if (!filteredTimings.isEmpty()) {
                     double averageDuration = filteredTimings.stream()
                             .mapToLong(t -> Duration.between(t.getStart(), t.getStop()).toMillis())
-                            .average().getAsDouble();
-                    String timestamp = "[" + formatter.format(now) + "]";
+                            .average().orElse(0.0);
 
-                    System.out.println(timestamp + " - " + interval + " : " + name + " - " + averageDuration / 1000 + " s.");
+                    intervalStats.put(interval, averageDuration / 1000); // в секундах
                 }
+            }
+
+            if (!intervalStats.isEmpty()) {
+                statisticsMap.put(name, intervalStats);
+            }
+        }
+
+        System.out.println("\n--- Observability statistics (delay = " + delay + " ms) ---");
+        String timestamp = "[" + formatter.format(now) + "]";
+
+        for (Map.Entry<String, Map<Integer, Double>> entry : statisticsMap.entrySet()) {
+            String name = entry.getKey();
+            for (Map.Entry<Integer, Double> intervalEntry : entry.getValue().entrySet()) {
+                int interval = intervalEntry.getKey();
+                double avgDuration = intervalEntry.getValue();
+                System.out.println(timestamp + " - " + interval + "s : " + name + " - " + avgDuration + " s.");
             }
         }
     }

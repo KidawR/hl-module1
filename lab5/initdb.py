@@ -116,8 +116,8 @@ def main():
 if __name__ == "__main__":
     main()
 
-#artists
-#viewers
-#tickets
+#artists  50
+#viewers  50
+#tickets  250
 
 #python initdb.py --count 2 --endpoint tickets --clear

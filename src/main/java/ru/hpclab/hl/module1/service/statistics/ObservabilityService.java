@@ -61,9 +61,11 @@ public class ObservabilityService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 .withZone(ZoneId.systemDefault());
 
-        int maxInterval = intervals.stream().max(Integer::compare).get();
-        removeOldTimings(now, maxInterval);
 
+        int maxInterval = intervals.stream().max(Integer::compare).get();
+
+        removeOldTimings(now, maxInterval);
+// копить в хэш мапе потом все выводить
         Set<String> uniqueNames = getUniqueNamesByTiming(snapshot);
 
         // сюда собираем статистику и потом выводим единым выводом
@@ -71,6 +73,7 @@ public class ObservabilityService {
 
         for (String name : uniqueNames) {
             Map<Integer, Double> intervalStats = new HashMap<>();
+
             for (int interval : intervals) {
                 List<Timing> filteredTimings = snapshot.stream()
                         .filter(t -> t.getStop() != PENDING_STOP
@@ -104,6 +107,8 @@ public class ObservabilityService {
                 int interval = statEntry.getKey();
                 double avg = statEntry.getValue();
                 System.out.println(timestamp + " - " + interval + " : " + name + " - " + avg + " s.");
+
+
             }
         }
     }

@@ -61,15 +61,16 @@ public class ObservabilityService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 .withZone(ZoneId.systemDefault());
 
-        int maxInterval = intervals.stream().max(Integer::compare).orElse(0);
+        int maxInterval = intervals.stream().max(Integer::compare).get();
         removeOldTimings(now, maxInterval);
-// копить в хэш мапе потом все выводить
+
         Set<String> uniqueNames = getUniqueNamesByTiming(snapshot);
-        Map<String, Map<Integer, Double>> statisticsMap = new HashMap<>();
+
+        // сюда собираем статистику и потом выводим единым выводом
+        Map<String, Map<Integer, Double>> stats = new HashMap<>();
 
         for (String name : uniqueNames) {
             Map<Integer, Double> intervalStats = new HashMap<>();
-
             for (int interval : intervals) {
                 List<Timing> filteredTimings = snapshot.stream()
                         .filter(t -> t.getStop() != PENDING_STOP
@@ -81,26 +82,28 @@ public class ObservabilityService {
                 if (!filteredTimings.isEmpty()) {
                     double averageDuration = filteredTimings.stream()
                             .mapToLong(t -> Duration.between(t.getStart(), t.getStop()).toMillis())
-                            .average().orElse(0.0);
+                            .average().getAsDouble();
 
-                    intervalStats.put(interval, averageDuration / 1000); // в секундах
+                    intervalStats.put(interval, averageDuration / 1000); // секунды
                 }
             }
-
             if (!intervalStats.isEmpty()) {
-                statisticsMap.put(name, intervalStats);
+                stats.put(name, intervalStats);
             }
         }
 
-        System.out.println("\n--- Observability statistics (delay = " + delay + " ms) ---");
+        // Теперь централизованный вывод:
         String timestamp = "[" + formatter.format(now) + "]";
+        System.out.println("\nPrint observability statistics in delay: " + delay);
 
-        for (Map.Entry<String, Map<Integer, Double>> entry : statisticsMap.entrySet()) {
+        for (Map.Entry<String, Map<Integer, Double>> entry : stats.entrySet()) {
             String name = entry.getKey();
-            for (Map.Entry<Integer, Double> intervalEntry : entry.getValue().entrySet()) {
-                int interval = intervalEntry.getKey();
-                double avgDuration = intervalEntry.getValue();
-                System.out.println(timestamp + " - " + interval + "s : " + name + " - " + avgDuration + " s.");
+            Map<Integer, Double> intervalStats = entry.getValue();
+
+            for (Map.Entry<Integer, Double> statEntry : intervalStats.entrySet()) {
+                int interval = statEntry.getKey();
+                double avg = statEntry.getValue();
+                System.out.println(timestamp + " - " + interval + " : " + name + " - " + avg + " s.");
             }
         }
     }

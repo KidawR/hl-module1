@@ -57,10 +57,10 @@ public class TicketController {
     }
 
     @PostMapping(value = "")
-    public Ticket saveUser(@RequestBody Ticket user) {
-        this.observabilityService.start(getClass().getSimpleName() + ":saveUser");
-        Ticket temp = TicketMapper.toModel(ticketService.saveTicket(TicketMapper.toEntity(user)));
-        this.observabilityService.stop(getClass().getSimpleName() + ":saveUser");
+    public Ticket saveTicket(@RequestBody Ticket ticket) {
+        this.observabilityService.start(getClass().getSimpleName() + ":saveTicket");
+        Ticket temp = TicketMapper.toModel(ticketService.saveTicket(TicketMapper.toEntity(ticket)));
+        this.observabilityService.stop(getClass().getSimpleName() + ":saveTicket");
         return temp;
     }
 

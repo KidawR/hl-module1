@@ -22,45 +22,45 @@ public class ViewerService {
     }
 
     public List<ViewerEntity> getAllViewers() {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":getAllViewers");
         List<ViewerEntity> temp = viewerRepository.findAll();
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":getAllViewers");
         return temp;
     }
 
     public ViewerEntity getViewerById(long id) {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":getViewerById");
         ViewerEntity temp = viewerRepository.findById(id).orElseThrow(() -> new CustomException(format(USER_NOT_FOUND_MSG, id)));
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":getViewerById");
         return temp;
     }
 
     public ViewerEntity saveViewer(ViewerEntity viewerEntity) {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":saveViewer");
         viewerEntity.setId(null);
         ViewerEntity temp = viewerRepository.save(viewerEntity);
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":saveViewer");
         return temp;
     }
 
     public void deleteViewer(long id) {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":deleteViewer");
         viewerRepository.deleteById(id);
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":deleteViewer");
     }
 
     public ViewerEntity updateViewer(long id, ViewerEntity viewerEntity) {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":updateViewer");
         viewerEntity.setId(id);
         //when id is not empty save works with update logic
         ViewerEntity temp = viewerRepository.save(viewerEntity);
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":updateViewer");
         return temp;
     }
 
     public void clearAllViewers() {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":clearAllViewers");
         viewerRepository.deleteAll();
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":clearAllViewers");
     }
 }

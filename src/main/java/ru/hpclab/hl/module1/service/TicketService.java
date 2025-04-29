@@ -28,49 +28,49 @@ public class TicketService {
     }
 
     public List<TicketEntity> getAllTickets() {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":getAllTickets");
         List<TicketEntity> temp = ticketRepository.findAll();
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":getAllTickets");
         return temp;
     }
 
     public TicketEntity getTicketById(long id) {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":getTicketById");
         TicketEntity temp = ticketRepository.findById(id).orElseThrow(() -> new CustomException(format(USER_NOT_FOUND_MSG, id)));
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":getTicketById");
         return temp;
     }
 
 
     public TicketEntity saveTicket(TicketEntity tickteEntity) {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":saveTicket");
         tickteEntity.setId(null);
         TicketEntity temp = ticketRepository.save(tickteEntity);
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":saveTicket");
         return temp;
     }
 
     public void deleteTicket(long id) {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":deleteTicket");
         ticketRepository.deleteById(id);
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":deleteTicket");
     }
 
     public TicketEntity updateTicket(long id, TicketEntity tickteEntity) {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":updateTicket");
         tickteEntity.setId(id);
         //when id is not empty save works with update logic
         TicketEntity temp = ticketRepository.save(tickteEntity);
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":updateTicket");
         return temp;
     }
 
 
 
     public void clearAllTickets() {
-        this.observabilityService.start(getClass().getSimpleName() + ":clearAllArtists");
+        this.observabilityService.start(getClass().getSimpleName() + ":clearAllTickets");
         ticketRepository.deleteAll();
-        this.observabilityService.stop(getClass().getSimpleName() + ":getAllArtists");
+        this.observabilityService.stop(getClass().getSimpleName() + ":clearAllTickets");
     }
 }
 

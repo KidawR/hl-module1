@@ -12,6 +12,13 @@ spec:
       labels:
         app: module1-service
     spec:
+      hostAliases:
+        - ip: "10.60.3.27"
+          hostnames:
+          - "hl22.zil"
+        - ip: "10.60.3.28"
+          hostnames:
+          - "hl23.zil"
       imagePullSecrets:
         - name: regcred
       containers:

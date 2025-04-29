@@ -17,8 +17,16 @@ spec:
       containers:
         - name: additional
           image: kidawr/additional-service:macOS
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           envFrom:
             - configMapRef:
                 name: config
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1024Mi"
+            requests:
+              cpu: "1"
+              memory: "1024Mi"

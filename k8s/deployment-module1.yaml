@@ -17,6 +17,7 @@ spec:
       containers:
         - name: module1-service
           image: kidawr/module1:macOS
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           envFrom:
@@ -35,3 +36,10 @@ spec:
                 secretKeyRef:
                   name: db-credentials
                   key: password
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1024Mi"
+            requests:
+              cpu: "1"
+              memory: "1024Mi"

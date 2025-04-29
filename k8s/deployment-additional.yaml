@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: additional-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: additional-service
+  template:
+    metadata:
+      labels:
+        app: additional-service
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: additional
+          image: kidawr/additional-service:macOS
+          ports:
+            - containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: config

@@ -23,14 +23,21 @@ public class KafkaMessageListener {
             concurrency = "${kafka.concurrency:2}",
             containerFactory = "kafkaListenerContainerFactory"
     )
-    public void handleMessage(List<String> messageJsonList) {
-        for (String messageJson : messageJsonList) {
-            try {
-                KafkaOperationMessage message = objectMapper.readValue(messageJson, KafkaOperationMessage.class);
-                kafkaMessageDispatcher.dispatch(message);
-            } catch (Exception e) {
-                log.error("Error while parsing or dispatching Kafka message: {}", messageJson, e);
-            }
+    public void handleMessage(String messageJson) {
+        log.info("Получено сообщение из Kafka: {}", messageJson);
+
+        try {
+            KafkaOperationMessage message = objectMapper.readValue(messageJson, KafkaOperationMessage.class);
+
+            //log.info("Передаётся на выполнение: entity={}, operation={}",
+            //        message.getEntity(), message.getOperation());
+
+            kafkaMessageDispatcher.dispatch(message);
+
+            log.info("Сообщение обработано успешно: entity={}, operation={}",
+                    message.getEntity(), message.getOperation());
+        } catch (Exception e) {
+            log.error("Ошибка при обработке сообщения Kafka: {}", messageJson, e);
         }
     }
 }

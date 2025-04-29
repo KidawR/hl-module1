@@ -101,5 +101,5 @@ if __name__ == "__main__":
 #artists  50
 #viewers  50
 #tickets  250
-#python initdb.py --entity ARTIST --count 50
-# python initdb.py --entity TICKET --count 2 --artist_id 3 --viewer_id 944
+#python initdb-kafka.py --entity ARTIST --count 50
+# python initdb-kafka.py --entity TICKET --count 2 --artist_id 3 --viewer_id 944

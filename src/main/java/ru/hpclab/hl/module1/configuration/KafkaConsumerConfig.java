@@ -18,7 +18,7 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 public class KafkaConsumerConfig {
-    @Value("${kafka.hosts:10.60.3.27:9094,10.60.3.28:9094}")
+    @Value("${kafka.hosts:hl22.zil:9094,hl23.zil:9094}")
     private List<String> bootstrapAddresses;
 
     @Value("${kafka.groupId:sergeevvs-consumer-group}")

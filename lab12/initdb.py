@@ -121,3 +121,6 @@ if __name__ == "__main__":
 #tickets
 
 #python initdb.py --count 2 --endpoint tickets --clear
+
+# lab 15 K105ab923cd8dd4d16eaa836a4767d986aabfa30f0bcb09f6f0952d67d2da7408e5::server:4ee4b063bff35facea195253feb268f6
+# 10.60.3.30/24

@@ -16,7 +16,7 @@ spec:
         - name: regcred
       containers:
         - name: additional
-          image: kidawr/additional-service:macOS
+          image: kidawr/additional-service
           imagePullPolicy: Always
           ports:
             - containerPort: 8081

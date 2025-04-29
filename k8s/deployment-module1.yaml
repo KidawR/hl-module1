@@ -16,7 +16,7 @@ spec:
         - name: regcred
       containers:
         - name: module1-service
-          image: kidawr/module1:macOS
+          image: kidawr/module1
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

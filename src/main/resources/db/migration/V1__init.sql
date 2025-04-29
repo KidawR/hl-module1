@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS t_ticket (
     id SERIAL PRIMARY KEY,
     artist_id INT REFERENCES t_artist(id) ON DELETE CASCADE,
     viewer_id INT REFERENCES t_viewer(id) ON DELETE CASCADE,
-    date TIMESTAMP NOT NULL,
+    date VARCHAR(50) NOT NULL,
     sector VARCHAR(10) NOT NULL
     );
 

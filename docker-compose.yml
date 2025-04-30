@@ -53,7 +53,9 @@ services:
         reservations:
           cpus: '0.5'  # Резервирование CPU
           memory: 256M  # Резервирование памяти
-
+    environment:
+      CORE_SERVICE_HOST: ${CORE_SERVICE_HOST:-spring-boot-app}
+      CORE_SERVICE_PORT: ${CORE_SERVICE_PORT:-8080}
           
 networks:
   app-network:

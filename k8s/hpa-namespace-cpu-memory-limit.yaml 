@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: hpa-namespace-cpu-memory-limit
+spec:
+  hard:
+    requests.cpu: "6"
+    requests.memory: "6Gi"
+    limits.cpu: "6"
+    limits.memory: "6Gi"

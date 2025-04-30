@@ -64,10 +64,10 @@ export function writeScenario() {
 
 // Делаем доп задание — запрос к stats
 export function readScenario() {
-    const res = http.get('http://192.168.1.232:8081/stats/', {
+    const res = http.get('http://hl16.zil:31601/stats/', {
         timeout: '360s',
     });
 
     check(res, { 'stats retrieved successfully': r => r.status === 200 });
 }
-//VUS_WRITE=5 VUS_READ=20 k6 run script.js
+//VUS_WRITE=5 VUS_READ=95 k6 run script.js

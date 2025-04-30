@@ -43,10 +43,15 @@ spec:
                 secretKeyRef:
                   name: db-credentials
                   key: password
+          resizePolicy:
+            - resourceName: cpu
+              restartPolicy: RestartContainer
+            - resourceName: memory
+              restartPolicy: NotRequired # Default, but explicit here
           resources:
-            limits:
-              cpu: "1"
-              memory: "1024Mi"
             requests:
-              cpu: "1"
+              cpu: "800m"
+              memory: "1024Mi"
+            limits:
+              cpu: "2"
               memory: "1024Mi"

@@ -12,6 +12,8 @@ spec:
       labels:
         app: additional-service
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: hl16.zil
       imagePullSecrets:
         - name: regcred
       containers:
@@ -23,10 +25,28 @@ spec:
           envFrom:
             - configMapRef:
                 name: config
+
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8081
+            periodSeconds: 10 # Проверка каждый 10 секунд
+            timeoutSeconds: 3 # Таймаут запроса 3 секунды
+            failureThreshold: 9 # Количество неудачных попыток перед пометкой контейнера как неготового
+
+
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8081
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 9
+
           resources:
             limits:
-              cpu: "1"
-              memory: "1024Mi"
+              cpu: "500m"
+              memory: "512Mi"
             requests:
-              cpu: "1"
-              memory: "1024Mi"
+              cpu: "500m"
+              memory: "512Mi"

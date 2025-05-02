@@ -12,6 +12,8 @@ spec:
       labels:
         app: module1-service
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: hl16.zil
       hostAliases:
       - ip: "10.60.3.27"
         hostnames:
@@ -43,10 +45,25 @@ spec:
                 secretKeyRef:
                   name: db-credentials
                   key: password
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 9
+
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 9
           resources:
             limits:
-              cpu: "1"
-              memory: "1024Mi"
+              cpu: "500m"
+              memory: "512Mi"
             requests:
-              cpu: "1"
-              memory: "1024Mi"
+              cpu: "500m"
+              memory: "512Mi"

@@ -25,7 +25,12 @@ spec:
           envFrom:
             - configMapRef:
                 name: config
-
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: redis-password
           livenessProbe:
             httpGet:
               path: /healthcheck

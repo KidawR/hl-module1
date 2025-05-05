@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  labels:
+    app: redis
+  annotations:
+    description: Redis configuration
+    usage: mounted
+data:
+  redis.conf: |
+    bind 0.0.0.0
+    requirepass secretpass
+    appendonly yes
+    appendfsync everysec

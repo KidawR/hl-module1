@@ -11,4 +11,4 @@ public class CrashController {
     public void crash() {
         System.exit(1);
     }
-}1
+}
